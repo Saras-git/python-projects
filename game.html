@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Guess</title>
+</head>
+
+<body>
+
+<h2>Guess the Number</h2>
+
+<p>Range : {{low}} - {{high}}</p>
+
+<p>Attempts : {{attempt}} / {{chances}}</p>
+
+<form method="POST">
+
+<input type="number" name="guess" required>
+
+<button type="submit">Guess</button>
+
+</form>
+
+<h3>{{message}}</h3>
+
+<br>
+
+<a href="/restart">Restart Game</a>
+
+</body>
+
+</html>
