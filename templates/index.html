@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Number Guessing Game</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 class="title">🎯 Number Guessing Game</h1>
+
+<p class="subtitle">Choose your range and difficulty level</p>
+
+<form method="POST">
+
+<div class="input-group">
+
+<label>Lower Number</label>
+<input type="number" name="low" placeholder="Enter minimum number" required>
+
+</div>
+
+<div class="input-group">
+
+<label>Higher Number</label>
+<input type="number" name="high" placeholder="Enter maximum number" required>
+
+</div>
+
+<div class="input-group">
+
+<label>Difficulty</label>
+
+<select name="difficulty">
+
+<option value="easy">Easy (10 Chances)</option>
+<option value="medium">Medium (7 Chances)</option>
+<option value="hard">Hard (5 Chances)</option>
+
+</select>
+
+</div>
+
+<button type="submit" class="start-btn">🚀 Start Game</button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

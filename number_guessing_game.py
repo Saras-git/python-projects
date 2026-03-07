@@ -32,14 +32,17 @@ def index():
 
     return render_template("index.html")
 
-
 @app.route("/game", methods=["GET","POST"])
 def game():
 
     message = ""
     number = session.get("number")
     chances = session.get("chances")
-    attempt = session.get("attempt")
+    attempt = session.get("attempt", 0)
+
+    # If game not started redirect to home
+    if number is None:
+        return redirect(url_for("index"))
 
     if request.method == "POST":
 

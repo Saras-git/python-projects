@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Guess</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🎯 Guess the Number</h2>
+
+<p class="info">Range : <b>{{low}}</b> - <b>{{high}}</b></p>
+
+<p class="info">Attempts : <b>{{attempt}}</b> / <b>{{chances}}</b></p>
+
+<form method="POST">
+
+<input type="number" name="guess" placeholder="Enter your guess" required>
+
+<button type="submit">Guess</button>
+
+</form>
+
+<h3 class="message">{{message}}</h3>
+
+<br>
+
+<a href="/restart" class="restart-btn">Restart Game</a>
+
+</div>
+
+</body>
+
+</html>
