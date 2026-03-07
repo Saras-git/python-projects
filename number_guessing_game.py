@@ -1,20 +1,81 @@
+from flask import Flask, render_template, request, session, redirect, url_for
 import random
-print("Hi! Welcome to the number Guessing Game\n You have a 7 chances to guess the number. Let's Start")
-low=int(input("enter the lower number : "))
-high=int(input("enter the higher number : "))
-print(f"\n You have a 7 chances to guess the number between {low} and {high}. Let's Start!")
-number=random.randint(low,high)
-chances=7
-guess_number=0
-while guess_number < chances:
-    guess_number+=1
-    guess=int(input("enter your guess : "))
-    if guess == number:
-        print(f"Correct! The number is {number}. You guessed it in {guess_number} attempts.")
-        break
-    elif guess_number >= chances and guess!=number:
-        print(f"Sorry! The number was {number}. Better luck next time.")
-    elif guess > number:
-        print("too high! try a lower number")
-    elif guess < number:
-        print("Too low! try a higher number")
+
+app = Flask(__name__)
+app.secret_key = "secret123"
+
+@app.route("/", methods=["GET","POST"])
+def index():
+
+    if request.method == "POST":
+
+        low = int(request.form["low"])
+        high = int(request.form["high"])
+        difficulty = request.form["difficulty"]
+
+        if difficulty == "easy":
+            chances = 10
+        elif difficulty == "medium":
+            chances = 7
+        else:
+            chances = 5
+
+        number = random.randint(low,high)
+
+        session["number"] = number
+        session["low"] = low
+        session["high"] = high
+        session["chances"] = chances
+        session["attempt"] = 0
+
+        return redirect(url_for("game"))
+
+    return render_template("index.html")
+
+
+@app.route("/game", methods=["GET","POST"])
+def game():
+
+    message = ""
+    number = session.get("number")
+    chances = session.get("chances")
+    attempt = session.get("attempt")
+
+    if request.method == "POST":
+
+        guess = int(request.form["guess"])
+        attempt += 1
+        session["attempt"] = attempt
+
+        if guess == number:
+            message = f"🎉 Correct! You guessed the number in {attempt} attempts!"
+            session.clear()
+
+        elif attempt >= chances:
+            message = f"❌ Game Over! The number was {number}"
+            session.clear()
+
+        elif guess > number:
+            message = "📉 Too High! Try Lower"
+
+        else:
+            message = "📈 Too Low! Try Higher"
+
+    return render_template(
+        "game.html",
+        message=message,
+        chances=session.get("chances"),
+        attempt=session.get("attempt"),
+        low=session.get("low"),
+        high=session.get("high")
+    )
+
+
+@app.route("/restart")
+def restart():
+    session.clear()
+    return redirect(url_for("index"))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
